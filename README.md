@@ -1,37 +1,9 @@
-<![CDATA[<div align="center">
 
 # 🎓 Cognify School Management System
 
 **Smarter Schools, Simpler Management**
 
-[![Built with Next.js](https://img.shields.io/badge/Next.js-16.1-black?style=flat&logo=next.js)](https://nextjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-24.x-green?style=flat&logo=node.js)](https://nodejs.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.x-blue?style=flat&logo=postgresql)](https://www.postgresql.org/)
-[![Prisma](https://img.shields.io/badge/Prisma-7.3-2D3748?style=flat&logo=prisma)](https://www.prisma.io/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-A modern, secure, and feature-rich school management system built with cutting-edge technologies. Designed to streamline administrative tasks, enhance communication, and improve the educational experience for schools of all sizes.
-
-[Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [Usage](#-usage) • [Security](#-security) • [Contributing](#-contributing)
-
-</div>
-
----
-
-## 📖 Table of Contents
-
-- [Overview](#-overview)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#-architecture)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [API Documentation](#-api-documentation)
-- [Security](#-security)
-- [Project Structure](#-project-structure)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Author](#-author)
 
 ---
 
