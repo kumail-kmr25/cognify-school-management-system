@@ -1,0 +1,172 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  teacher
+  student
+  parent
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(student)
+  createdAt DateTime @default(now())
+
+  // Relationships
+  teacherClasses     Class[]          @relation("TeacherClasses")
+  teacherSubjects    Subject[]        @relation("TeacherSubjects")
+  studentAttendance  Attendance[]
+  studentResults     Result[]
+  sentMessages       Message[]        @relation("SentMessages")
+  receivedMessages   Message[]        @relation("ReceivedMessages")
+  notifications      Notification[]
+  activityLogs       ActivityLog[]
+  leaveRequests      LeaveRequest[]
+  uploadedResources  Resource[]
+  
+  // Student Specific
+  studentClassId     String?
+  studentClass       Class?           @relation("StudentClass", fields: [studentClassId], references: [id])
+}
+
+model Class {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  teacherId String?
+  teacher   User?    @relation("TeacherClasses", fields: [teacherId], references: [id])
+  
+  subjects  Subject[]
+  students  User[]   @relation("StudentClass")
+  timetable Timetable[]
+  exams     Exam[]
+  resources Resource[]
+}
+
+model Subject {
+  id        String   @id @default(uuid())
+  name      String
+  classId   String
+  class     Class    @relation(fields: [classId], references: [id])
+  teacherId String?
+  teacher   User?    @relation("TeacherSubjects", fields: [teacherId], references: [id])
+
+  exams     Exam[]
+}
+
+model Attendance {
+  id        String   @id @default(uuid())
+  date      DateTime
+  status    String   // Present, Absent
+  studentId String
+  student   User     @relation(fields: [studentId], references: [id])
+  classId   String?  // Optional for now, usually derived
+}
+
+model Exam {
+  id        String   @id @default(uuid())
+  name      String
+  date      DateTime
+  classId   String
+  class     Class    @relation(fields: [classId], references: [id])
+  subjectId String
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  
+  results   Result[]
+}
+
+model Result {
+  id        String   @id @default(uuid())
+  marks     Int
+  examId    String
+  exam      Exam     @relation(fields: [examId], references: [id])
+  studentId String
+  student   User     @relation(fields: [studentId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  message   String
+  type      String   @default("info")
+  read      Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Timetable {
+  id        String   @id @default(uuid())
+  day       String
+  time      String
+  subject   String   // Keeping simple string for flexibility or could link to Subject
+  classId   String
+  class     Class    @relation(fields: [classId], references: [id])
+}
+
+model LeaveRequest {
+  id        String   @id @default(uuid())
+  reason    String
+  startDate DateTime
+  endDate   DateTime
+  status    String   @default("pending")
+  studentId String
+  student   User     @relation(fields: [studentId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  action    String
+  details   String
+  ip        String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  content     String
+  senderId    String
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id])
+  recipientId String?
+  recipient   User?    @relation("ReceivedMessages", fields: [recipientId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Resource {
+  id         String   @id @default(uuid())
+  title      String
+  type       String   // notes, assignment
+  fileUrl    String
+  classId    String?
+  class      Class?   @relation(fields: [classId], references: [id])
+  uploaderId String
+  uploader   User     @relation(fields: [uploaderId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model Announcement {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  date      DateTime @default(now())
+}
+
+model Fee {
+    id String @id @default(uuid())
+    // Placeholder as Fee model wasn't heavily used in code yet
+    amount Float
+    status String
+    studentId String
+    dueDate DateTime
+}
