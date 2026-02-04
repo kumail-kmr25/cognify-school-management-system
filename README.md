@@ -84,7 +84,7 @@ Cognify is a comprehensive school management platform that digitizes and simplif
 - **Dark Mode** - Easy on the eyes with beautiful dark theme
 - **Responsive Design** - Works seamlessly on desktop, tablet, and mobile
 - **Activity Logging** - Complete audit trail of all system actions
-- **Backup System** - Automated database backup functionality
+- **Backup System** - Scheduled database backup functionality
 
 ---
 
